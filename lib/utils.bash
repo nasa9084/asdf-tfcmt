@@ -32,12 +32,25 @@ list_all_versions() {
 	list_github_tags
 }
 
+get_arch() {
+	arch="$(uname -m)"
+	local arch
+
+	case "${arch}" in
+		x86_64)
+			arch='amd64'
+			;;
+	esac
+
+	echo "${arch}"
+}
+
 download_release() {
 	local version filename url
 	version="$1"
 	filename="$2"
 
-	url="$GH_REPO/releases/download/v${version}/tfcmt_$(uname | tr '[:upper:]' '[:lower:]')_$(uname -m).tar.gz"
+	url="$GH_REPO/releases/download/v${version}/tfcmt_$(uname | tr '[:upper:]' '[:lower:]')_$(get_arch).tar.gz"
 
 	echo "* Downloading $TOOL_NAME release $version..."
 	curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
