@@ -33,14 +33,12 @@ list_all_versions() {
 }
 
 get_arch() {
-	arch="$(uname -m)"
 	local arch
+	arch="$(uname -m)"
 
-	case "${arch}" in
-		x86_64)
-			arch='amd64'
-			;;
-	esac
+	if [ "${arch}" == "x86_64" ]; then
+		arch='amd64'
+	fi
 
 	echo "${arch}"
 }
