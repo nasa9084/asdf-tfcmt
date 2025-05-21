@@ -36,11 +36,17 @@ get_arch() {
 	local arch
 	arch="$(uname -m)"
 
-	if [ "${arch}" == "x86_64" ]; then
-		arch='amd64'
-	fi
-
-	echo "${arch}"
+	case "$arch" in
+		x86_64)
+			echo "amd64"
+			;;
+		aarch64 | arm64)
+			echo "arm64"
+			;;
+		*)
+			fail "Unsupported architecture: $arch"
+			;;
+	esac
 }
 
 download_release() {
